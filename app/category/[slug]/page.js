@@ -17,7 +17,7 @@ export default async function CategoryPage({ params }) {
   if (!category) return notFound();
 
   return (
-    <section className="mx-auto max-w-7xl px-5 md:px-8 py-14">
+    <section className="mx-auto max-w-7xl px-5 md:px-8 pt-28 pb-16">
       <p className="mono-label text-xs uppercase text-amber-dark mb-2">Category</p>
       <h1 className="font-display text-4xl md:text-5xl font-bold mb-8 border-b border-line pb-6">
         {category.title}

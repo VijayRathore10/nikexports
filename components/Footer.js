@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Logo from './Logo';
 
 const socialLabels = {
   facebook: 'Facebook',
@@ -12,14 +13,15 @@ export default function Footer({ settings }) {
   const social = settings?.socialLinks || {};
 
   return (
-    <footer className="bg-steel text-paper mt-24">
+    <footer className="bg-steel text-paper mt-24 border-t border-line/20">
       <div className="mx-auto max-w-7xl px-5 md:px-8 py-14 grid gap-10 md:grid-cols-3">
         <div>
-          <p className="font-display text-xl font-bold mb-3">
-            NIK <span className="text-amber">EXPORTS</span>
-          </p>
+          <div className="mb-4">
+            <Logo isWhite={true} className="h-10 w-auto" />
+          </div>
           <p className="text-sm text-paper/70 leading-relaxed max-w-xs">
-            {settings?.aboutText}
+            {settings?.aboutText ||
+              'SSG MOTORS is an export house dealing in commercial vehicles, buses, trailers, agricultural machinery, and heavy equipment for global markets.'}
           </p>
         </div>
 
@@ -49,7 +51,7 @@ export default function Footer({ settings }) {
       </div>
 
       <div className="border-t border-paper/10 py-5 text-center text-xs text-paper/50 mono-label">
-        © {new Date().getFullYear()} NIK EXPORTS — ALL RIGHTS RESERVED
+        © {new Date().getFullYear()} SSG MOTORS — COMMERCIAL VEHICLES &amp; EQUIPMENT EXPORT
       </div>
     </footer>
   );

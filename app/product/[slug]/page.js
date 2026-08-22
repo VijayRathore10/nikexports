@@ -19,7 +19,7 @@ export default async function ProductPage({ params }) {
   const highlights = (product.highlights || []).filter(Boolean);
 
   return (
-    <section className="mx-auto max-w-7xl px-5 md:px-8 py-12">
+    <section className="mx-auto max-w-7xl px-5 md:px-8 pt-28 pb-16">
       <nav className="mono-label text-[11px] uppercase text-graphite mb-6">
         <Link href="/" className="hover:text-freight">Home</Link>
         {' / '}

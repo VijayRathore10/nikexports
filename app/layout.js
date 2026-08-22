@@ -2,29 +2,45 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { getSiteSettings } from '@/lib/data';
+import { Inter, Barlow_Condensed, IBM_Plex_Mono } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const barlowCondensed = Barlow_Condensed({
+  weight: ['500', '600', '700', '800'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-barlow-condensed',
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ['400', '500', '600'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-ibm-plex-mono',
+});
 
 export const metadata = {
-  title: 'Nik Exports | Commercial Vehicles & Equipment Export',
+  title: 'SSG MOTORS | Commercial Vehicles & Equipment Export',
   description:
-    'Nik Exports — trucks, buses, agricultural machinery and special application vehicles, exported worldwide.',
+    'SSG MOTORS — Commercial trucks, buses, agricultural machinery and heavy construction equipment exported worldwide.',
 };
 
 export default async function RootLayout({ children }) {
   const settings = await getSiteSettings();
 
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="antialiased">
+    <html
+      lang="en"
+      className={`${inter.variable} ${barlowCondensed.variable} ${ibmPlexMono.variable}`}
+    >
+      <body className="antialiased min-h-screen flex flex-col bg-[#F3F1EA] text-[#1A1F26]" suppressHydrationWarning>
         <Header settings={settings} />
-        <main>{children}</main>
+        <main className="flex-1">{children}</main>
         <Footer settings={settings} />
       </body>
     </html>
