@@ -24,11 +24,15 @@ const ibmPlexMono = IBM_Plex_Mono({
   variable: '--font-ibm-plex-mono',
 });
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = {
   title: 'SSG MOTORS | Commercial Vehicles & Equipment Export',
   description:
     'SSG MOTORS — Commercial trucks, buses, agricultural machinery and heavy construction equipment exported worldwide.',
 };
+
 
 export default async function RootLayout({ children }) {
   const settings = await getSiteSettings();

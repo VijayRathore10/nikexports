@@ -16,8 +16,9 @@ export default function ImageCarousel({ images = [], alt }) {
       <div className="relative aspect-[4/3] bg-steel/5 border border-line overflow-hidden">
         <Image
           src={resolveImage(images[index], 900)}
-          alt={`${alt} — image ${index + 1}`}
+          alt={`${alt || 'Vehicle'} — image ${index + 1}`}
           fill
+          referrerPolicy="no-referrer"
           className="object-cover"
           priority
         />
@@ -54,7 +55,7 @@ export default function ImageCarousel({ images = [], alt }) {
               className="relative aspect-square overflow-hidden border-2 transition-colors"
               style={{ borderColor: i === index ? '#E8A23D' : 'transparent' }}
             >
-              <Image src={resolveImage(img, 150)} alt="" fill className="object-cover" />
+              <Image src={resolveImage(img, 150)} alt="" fill referrerPolicy="no-referrer" className="object-cover" />
             </button>
           ))}
         </div>

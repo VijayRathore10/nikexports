@@ -2,7 +2,11 @@ import InquiryForm from '@/components/InquiryForm';
 import { getSiteSettings } from '@/lib/data';
 import { Mail, Phone, MapPin, Clock, ShieldCheck } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = {
+
   title: 'Request a Quote | SSG MOTORS',
   description: 'Request a customized FOB/CIF export quotation for commercial vehicles and machinery.',
 };

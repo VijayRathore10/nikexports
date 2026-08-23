@@ -7,11 +7,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowRight,
-  ShieldCheck,
-  Globe2,
-  Sparkles,
-  Ship,
-  Truck
 } from 'lucide-react';
 import { resolveImage } from '@/lib/image';
 
@@ -64,6 +59,22 @@ export default function HeroSlider({ images, tagline }) {
     }
     return DEFAULT_16_10_SLIDES;
   });
+
+  useEffect(() => {
+    if (images && images.length > 0) {
+      setSlides(
+        images.map((img, idx) => ({
+          id: idx + 1,
+          url: resolveImage(img, 1920),
+          title: DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].title,
+          subtitle: tagline || DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].subtitle,
+          category: DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].category,
+          badge: DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].badge,
+        }))
+      );
+    }
+  }, [images, tagline]);
+
 
   const [index, setIndex] = useState(0);
   const [seedCount, setSeedCount] = useState(1);
@@ -144,6 +155,7 @@ export default function HeroSlider({ images, tagline }) {
             alt={slide.title}
             fill
             priority={i === 0}
+            referrerPolicy="no-referrer"
             className="object-cover object-center transform scale-102 transition-transform duration-10000 ease-out"
             sizes="100vw"
           />
@@ -153,22 +165,6 @@ export default function HeroSlider({ images, tagline }) {
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d1827]/95 via-transparent to-[#0d1827]/40" />
         </div>
       ))}
-
-      {/* 16:10 Badge & Random Image Generator Trigger (Top Right) */}
-      <div className="absolute top-20 md:top-24 right-5 md:right-8 z-20 flex items-center gap-2.5 bg-black/45 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-white shadow-lg">
-        <span className="w-2 h-2 rounded-full bg-[#B69255] animate-pulse" />
-        <span className="mono-label text-[11px] uppercase tracking-wider text-white/90">
-          16:10 Ratio View
-        </span>
-        <button
-          onClick={handleGenerateRandomImages}
-          title="Click to generate fresh random 16:10 images"
-          className="ml-1 inline-flex items-center gap-1 px-2.5 py-1 bg-[#B69255] hover:bg-[#A07E44] text-white font-bold text-[10px] uppercase rounded-full transition-all shadow-sm cursor-pointer mono-label"
-        >
-          <Sparkles className="w-3 h-3" />
-          <span>New 16:10</span>
-        </button>
-      </div>
 
       {/* Main Hero Content */}
       <div className="relative z-10 mx-auto max-w-7xl h-full px-5 md:px-8 flex flex-col justify-center pt-20 md:pt-24 pb-12">
@@ -233,51 +229,6 @@ export default function HeroSlider({ images, tagline }) {
         <ChevronRight className="w-6 h-6" />
       </button>
 
-      {/* Bottom Slider Indicators with Slide Numbers */}
-      <div className="absolute bottom-6 md:bottom-8 right-5 md:right-8 z-20 flex items-center gap-3 bg-[#0d1827]/75 backdrop-blur-md px-4 py-2 rounded-full border border-white/15 shadow-xl">
-        <span className="mono-label text-xs font-bold text-[#D5B57A]">
-          0{index + 1}
-        </span>
-        <div className="flex gap-1.5">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              aria-label={`Go to slide ${i + 1}`}
-              onClick={() => setIndex(i)}
-              className="h-1.5 rounded-full transition-all duration-300 cursor-pointer"
-              style={{
-                width: i === index ? '26px' : '6px',
-                backgroundColor: i === index ? '#B69255' : 'rgba(255,255,255,0.35)',
-              }}
-            />
-          ))}
-        </div>
-        <span className="mono-label text-xs text-white/50">
-          0{slides.length}
-        </span>
-      </div>
-
-      {/* Bottom Trust Strip Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 z-15 hidden lg:block bg-gradient-to-t from-black/80 to-transparent py-3">
-        <div className="mx-auto max-w-7xl px-5 md:px-8 flex items-center justify-between text-white/80 text-xs mono-label uppercase">
-          <div className="flex items-center gap-2">
-            <Globe2 className="w-4 h-4 text-[#D5B57A]" />
-            <span>100+ Global Ports</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#D5B57A]" />
-            <span>Verified Pre-Shipment Inspection</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Ship className="w-4 h-4 text-[#D5B57A]" />
-            <span>Direct Ro-Ro &amp; Container Shipping</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Truck className="w-4 h-4 text-[#D5B57A]" />
-            <span>Multi-Brand Commercial Fleet</span>
-          </div>
-        </div>
-      </div>
     </section>
   );
 }

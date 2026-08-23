@@ -4,10 +4,15 @@ import { getProductBySlug, getProducts } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+export const revalidate = 0;
+
 export async function generateStaticParams() {
   const products = await getProducts();
   return products.map((p) => ({ slug: p.slug }));
 }
+
 
 export default async function ProductPage({ params }) {
   const { slug } = await params;

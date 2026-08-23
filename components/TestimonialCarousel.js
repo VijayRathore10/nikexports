@@ -48,7 +48,7 @@ export default function TestimonialCarousel({ testimonials }) {
             >
               <div className="relative min-h-[220px]">
                 {t.photos?.[0] && (
-                  <Image src={resolveImage(t.photos[0], 400)} alt={t.customerName} fill className="object-cover" />
+                  <Image src={resolveImage(t.photos[0], 400)} alt={t.customerName || 'Customer'} fill referrerPolicy="no-referrer" className="object-cover" />
                 )}
               </div>
               <div className="p-6 flex flex-col justify-center">

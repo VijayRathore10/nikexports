@@ -2,10 +2,15 @@ import ProductCard from '@/components/ProductCard';
 import { getCategoryBySlug, getProductsByCategory, getCategories } from '@/lib/data';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+export const revalidate = 0;
+
 export async function generateStaticParams() {
   const categories = await getCategories();
   return categories.map((c) => ({ slug: c.slug }));
 }
+
 
 export default async function CategoryPage({ params }) {
   const { slug } = await params;

@@ -5,7 +5,11 @@ import TestimonialCarousel from '@/components/TestimonialCarousel';
 import { getCategories, getProducts, getTestimonials, getSiteSettings } from '@/lib/data';
 import { ArrowRight, ShieldCheck, Globe2, Ship, Clock } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function HomePage() {
+
   const [categories, products, testimonials, settings] = await Promise.all([
     getCategories(),
     getProducts(),

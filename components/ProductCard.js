@@ -8,17 +8,18 @@ export default function ProductCard({ product }) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group flex flex-col bg-white border border-line hover:border-amber hover:shadow-lg transition-all duration-300 overflow-hidden"
+      className="group flex flex-col bg-white border border-line hover:border-amber hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-steel/5">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-steel/5 rounded-t-xl">
         <Image
           src={resolveImage(product.cardImage, 600)}
-          alt={product.name}
+          alt={product.name || 'Vehicle'}
           fill
+          referrerPolicy="no-referrer"
           className="object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-2.5 right-2.5">
-          <span className="mono-label text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-steel/80 backdrop-blur-sm text-paper border border-white/10">
+          <span className="mono-label text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 bg-steel/80 backdrop-blur-sm text-paper border border-white/10 rounded-md">
             Export Ready
           </span>
         </div>
@@ -45,8 +46,8 @@ export default function ProductCard({ product }) {
           <span className="text-freight font-semibold group-hover:text-amber-dark transition-colors">
             View Details →
           </span>
-          <span className="text-[11px] text-graphite uppercase">
-            Inquire Now
+          <span className="text-[11px] font-semibold text-amber-dark uppercase bg-amber/10 px-2 py-0.5 rounded">
+            Request Quote
           </span>
         </div>
       </div>
