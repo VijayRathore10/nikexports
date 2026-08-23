@@ -97,6 +97,40 @@ export default function Header() {
           />
         </Link>
 
+        {/* Navigation Links */}
+        <nav className="hidden md:flex items-center gap-8">
+          <Link
+            href="/#catalog"
+            className={`text-sm font-semibold tracking-wide uppercase transition-colors ${
+              isWhiteNav
+                ? 'text-[#102035] hover:text-[#B69255]'
+                : 'text-white/90 hover:text-white'
+            }`}
+          >
+            Inventory
+          </Link>
+          <Link
+            href="/about"
+            className={`text-sm font-semibold tracking-wide uppercase transition-colors ${
+              isWhiteNav
+                ? 'text-[#102035] hover:text-[#B69255]'
+                : 'text-white/90 hover:text-white'
+            }`}
+          >
+            About Us
+          </Link>
+          <Link
+            href="/contact"
+            className={`text-sm font-semibold tracking-wide uppercase transition-colors ${
+              isWhiteNav
+                ? 'text-[#102035] hover:text-[#B69255]'
+                : 'text-white/90 hover:text-white'
+            }`}
+          >
+            Contact
+          </Link>
+        </nav>
+
         {/* Action Button: "Request a Quote" */}
         <div className="flex items-center gap-3">
           <Link
