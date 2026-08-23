@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { resolveImage } from '@/lib/image';
 
 export default function ProductCard({ product }) {
-  const highlights = (product.highlights || []).filter(Boolean).slice(0, 4);
+  const highlights = (product.highlights || []).filter(Boolean);
 
   return (
     <Link
@@ -32,9 +32,9 @@ export default function ProductCard({ product }) {
           </p>
 
           {highlights.length > 0 && (
-            <ul className="mono-label text-[11px] text-graphite grid grid-cols-2 gap-x-2 gap-y-1.5 uppercase mb-4">
+            <ul className="mono-label text-[10px] text-graphite grid grid-cols-3 gap-x-2 gap-y-1.5 uppercase mb-4">
               {highlights.map((h, i) => (
-                <li key={i} className="truncate border-l-2 border-amber pl-1.5 text-steel/80">
+                <li key={i} className="truncate border-l-2 border-amber pl-1.5 text-steel/80 leading-tight">
                   {h}
                 </li>
               ))}
