@@ -72,7 +72,7 @@ export default function Footer({ settings }) {
                 href="mailto:sales@nikexports.com"
                 className="hover:text-amber transition-colors flex items-center gap-2"
               >
-                info@ssgmotors.com
+                sales@nikexports.com
               </a>
             </li>
             <li>
@@ -80,7 +80,7 @@ export default function Footer({ settings }) {
                 href="tel:+919216915159"
                 className="hover:text-amber transition-colors"
               >
-                +971 50 698 8527
+                +919216915159
               </a>
             </li>
             <li className="pt-1 text-paper/70 leading-relaxed">
