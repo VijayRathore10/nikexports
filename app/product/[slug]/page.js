@@ -38,6 +38,15 @@ export default async function ProductPage({ params }) {
       <div className="grid lg:grid-cols-5 gap-10">
         <div className="lg:col-span-3">
           <ImageCarousel images={product.gallery} alt={product.name} />
+
+          {product.description && (
+            <div className="mt-8 pt-6 border-t border-line/80">
+              <h2 className="mono-label text-xs uppercase text-amber-dark font-bold tracking-wider mb-3">
+                Vehicle Overview
+              </h2>
+              <p className="text-base leading-relaxed text-steel/90">{product.description}</p>
+            </div>
+          )}
         </div>
 
         <div className="lg:col-span-2">
@@ -51,10 +60,6 @@ export default async function ProductPage({ params }) {
                 <span key={i}>{h}</span>
               ))}
             </div>
-          )}
-
-          {product.description && (
-            <p className="text-sm leading-relaxed text-steel/90 mb-6">{product.description}</p>
           )}
 
           {specs.length > 0 && (

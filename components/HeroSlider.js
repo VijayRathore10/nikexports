@@ -3,81 +3,126 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  ChevronLeft,
-  ChevronRight,
-  ArrowRight,
-} from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { resolveImage } from '@/lib/image';
 
-const DEFAULT_16_10_SLIDES = [
+const SLIDE_DEFINITIONS = [
   {
-    id: 1,
+    key: 'trucks',
+    match: (filename = '', url = '', ref = '') => {
+      const s = `${filename} ${url} ${ref}`.toLowerCase();
+      return s.includes('prima') || s.includes('truck') || s.includes('274bd13');
+    },
+    title: 'COMMERCIAL VEHICLES & FLEET EXPORT',
+    subtitle:
+      'Prime movers, multi-axle cargo haulers, and heavy tippers certified for immediate worldwide port dispatch.',
+    category: 'Commercial Trucks',
+    href: '/#catalog',
+  },
+  {
+    key: 'machineries',
+    match: (filename = '', url = '', ref = '') => {
+      const s = `${filename} ${url} ${ref}`.toLowerCase();
+      return s.includes('jcb') || s.includes('machinery') || s.includes('da5c469') || s.includes('equipment');
+    },
+    title: 'EARTHMOVING & HEAVY MACHINERY',
+    subtitle:
+      'High-performance hydraulic excavators, backhoe loaders, and road equipment inspected to international standards.',
+    category: 'Heavy Equipment',
+    href: '/#catalog',
+  },
+  {
+    key: 'buses',
+    match: (filename = '', url = '', ref = '') => {
+      const s = `${filename} ${url} ${ref}`.toLowerCase();
+      return s.includes('1618') || s.includes('bus') || s.includes('420e1a6') || s.includes('lpo');
+    },
+    title: 'PASSENGER BUSES & STAFF COACHES',
+    subtitle:
+      'Transit fleets, intercity luxury coaches, and airport shuttles built for demanding climate and terrain.',
+    category: 'Passenger Transit',
+    href: '/#catalog',
+  },
+  {
+    key: 'agriculture',
+    match: (filename = '', url = '', ref = '') => {
+      const s = `${filename} ${url} ${ref}`.toLowerCase();
+      return s.includes('tractor') || s.includes('agri') || s.includes('950ae68');
+    },
+    title: 'AGRICULTURAL TRACTORS & IMPLEMENTS',
+    subtitle:
+      'Modern 4WD tractors from 45HP to 110HP with complete implement packages for large-scale farming.',
+    category: 'Agricultural Machinery',
+    href: '/#catalog',
+  },
+];
+
+function buildSlideData(img, idx, defaultTagline) {
+  const url = resolveImage(img, 1920);
+  const ref = img?.asset?._ref || img?.asset?._id || '';
+  const filename = img?.asset?.originalFilename || '';
+
+  const matchedDef = SLIDE_DEFINITIONS.find((def) => def.match(filename, url, ref));
+  const fallbackDef = SLIDE_DEFINITIONS[idx % SLIDE_DEFINITIONS.length];
+  const def = matchedDef || fallbackDef;
+
+  return {
+    id: `slide-${idx}-${ref || idx}`,
+    url,
+    title: def.title,
+    subtitle: defaultTagline && !matchedDef ? defaultTagline : def.subtitle,
+    category: def.category,
+    href: def.href,
+  };
+}
+
+const DEFAULT_SLIDES = [
+  {
+    id: 'default-1',
     url: 'https://picsum.photos/seed/ssg-heavy-haulage-1610/1920/1200',
     title: 'COMMERCIAL VEHICLES & FLEET EXPORT',
     subtitle: 'Prime movers, multi-axle cargo haulers, and heavy tippers certified for immediate worldwide port dispatch.',
     category: 'Commercial Trucks',
-    badge: 'Worldwide Seaport Shipping',
   },
   {
-    id: 2,
+    id: 'default-2',
     url: 'https://picsum.photos/seed/ssg-machinery-1610/1920/1200',
     title: 'EARTHMOVING & HEAVY MACHINERY',
     subtitle: 'High-performance hydraulic excavators, wheel loaders, and road equipment inspected to international standards.',
-    category: 'Construction Equipment',
-    badge: '100% Pre-Shipment Tested',
+    category: 'Heavy Equipment',
   },
   {
-    id: 3,
+    id: 'default-3',
     url: 'https://picsum.photos/seed/ssg-transit-1610/1920/1200',
     title: 'PASSENGER BUSES & STAFF COACHES',
     subtitle: 'Transit fleets, intercity luxury coaches, and airport shuttles built for demanding climate and terrain.',
     category: 'Passenger Transit',
-    badge: 'Certified Fleet Grade',
   },
   {
-    id: 4,
+    id: 'default-4',
     url: 'https://picsum.photos/seed/ssg-agricultural-1610/1920/1200',
     title: 'AGRICULTURAL TRACTORS & IMPLEMENTS',
     subtitle: 'Modern 4WD tractors from 45HP to 110HP with complete implement packages for large-scale farming.',
     category: 'Agricultural Machinery',
-    badge: 'Turnkey Export Solutions',
   },
 ];
 
 export default function HeroSlider({ images, tagline }) {
   const [slides, setSlides] = useState(() => {
     if (images && images.length > 0) {
-      return images.map((img, idx) => ({
-        id: idx + 1,
-        url: resolveImage(img, 1920),
-        title: DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].title,
-        subtitle: tagline || DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].subtitle,
-        category: DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].category,
-        badge: DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].badge,
-      }));
+      return images.map((img, idx) => buildSlideData(img, idx, tagline));
     }
-    return DEFAULT_16_10_SLIDES;
+    return DEFAULT_SLIDES;
   });
 
   useEffect(() => {
     if (images && images.length > 0) {
-      setSlides(
-        images.map((img, idx) => ({
-          id: idx + 1,
-          url: resolveImage(img, 1920),
-          title: DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].title,
-          subtitle: tagline || DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].subtitle,
-          category: DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].category,
-          badge: DEFAULT_16_10_SLIDES[idx % DEFAULT_16_10_SLIDES.length].badge,
-        }))
-      );
+      setSlides(images.map((img, idx) => buildSlideData(img, idx, tagline)));
     }
   }, [images, tagline]);
 
-
   const [index, setIndex] = useState(0);
-  const [seedCount, setSeedCount] = useState(1);
 
   const next = useCallback(() => {
     setIndex((i) => (i + 1) % slides.length);
@@ -93,48 +138,6 @@ export default function HeroSlider({ images, tagline }) {
     return () => clearInterval(interval);
   }, [next, slides.length]);
 
-  // Shuffle & Generate new random 16:10 images on demand
-  const handleGenerateRandomImages = () => {
-    const newSeed = Date.now();
-    setSeedCount((c) => c + 1);
-    const randomized = [
-      {
-        id: 1,
-        url: `https://picsum.photos/seed/truck_1610_${newSeed}/1920/1200`,
-        title: 'COMMERCIAL VEHICLES & FLEET EXPORT',
-        subtitle: '16:10 High-Definition Fleet Showcase (1920 × 1200px) — Heavy duty commercial haulage.',
-        category: 'Commercial Trucks',
-        badge: '16:10 Aspect Ratio',
-      },
-      {
-        id: 2,
-        url: `https://picsum.photos/seed/machinery_1610_${newSeed}/1920/1200`,
-        title: 'EARTHMOVING & HEAVY MACHINERY',
-        subtitle: '16:10 High-Definition Fleet Showcase (1920 × 1200px) — Construction and mining machinery.',
-        category: 'Heavy Equipment',
-        badge: '16:10 Aspect Ratio',
-      },
-      {
-        id: 3,
-        url: `https://picsum.photos/seed/bus_1610_${newSeed}/1920/1200`,
-        title: 'PASSENGER BUSES & STAFF COACHES',
-        subtitle: '16:10 High-Definition Fleet Showcase (1920 × 1200px) — Transit and luxury coaches.',
-        category: 'Passenger Transit',
-        badge: '16:10 Aspect Ratio',
-      },
-      {
-        id: 4,
-        url: `https://picsum.photos/seed/agri_1610_${newSeed}/1920/1200`,
-        title: 'AGRICULTURAL TRACTORS & IMPLEMENTS',
-        subtitle: '16:10 High-Definition Fleet Showcase (1920 × 1200px) — 4WD farm tractors and implements.',
-        category: 'Agriculture',
-        badge: '16:10 Aspect Ratio',
-      },
-    ];
-    setSlides(randomized);
-    setIndex(0);
-  };
-
   const currentSlide = slides[index] || slides[0];
 
   return (
@@ -142,11 +145,11 @@ export default function HeroSlider({ images, tagline }) {
       id="hero-section"
       className="relative w-full aspect-[16/10] min-h-[520px] max-h-[88vh] overflow-hidden bg-[#0e1724] select-none"
     >
-      {/* 16:10 Aspect Ratio Photography Slides */}
+      {/* 16:10 Aspect Ratio Background Photography Slides */}
       {slides.map((slide, i) => (
         <div
-          key={`${slide.id}-${i}-${seedCount}`}
-          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          key={slide.id}
+          className="absolute inset-0 transition-opacity duration-700 ease-in-out"
           style={{ opacity: i === index ? 1 : 0 }}
           aria-hidden={i !== index}
         >
@@ -159,56 +162,42 @@ export default function HeroSlider({ images, tagline }) {
             className="object-cover object-center transform scale-102 transition-transform duration-10000 ease-out"
             sizes="100vw"
           />
-
-          {/* Luxury Gradient Overlays: Navy and Gold undertones */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0d1827]/90 via-[#0d1827]/60 to-[#0d1827]/25" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0d1827]/95 via-transparent to-[#0d1827]/40" />
+          {/* Subtle gradient overlay for high contrast readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0c141f]/85 via-[#0c141f]/50 to-transparent" />
         </div>
       ))}
 
-      {/* Main Hero Content */}
+      {/* Main Hero Content - Synced with Current Slide */}
       <div className="relative z-10 mx-auto max-w-7xl h-full px-5 md:px-8 flex flex-col justify-center pt-20 md:pt-24 pb-12">
         <div className="max-w-3xl">
-          {/* Top Pill / Badge with Gold Accents */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#B69255]/90 backdrop-blur-md text-white font-bold mono-label text-xs uppercase tracking-widest rounded-sm mb-4 md:mb-5 shadow-lg border border-white/20">
-            <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-            <span>{currentSlide?.badge || 'SSG MOTORS GLOBAL EXPORT'}</span>
-          </div>
-
-          {/* Main Headline with Gold Highlights */}
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold uppercase tracking-tight text-white leading-[1.02] drop-shadow-xl">
-            {currentSlide?.title?.split('&')[0]}{' '}
-            {currentSlide?.title?.includes('&') && (
-              <span className="text-[#D5B57A] drop-shadow">
-                &amp; {currentSlide?.title?.split('&').slice(1).join('&')}
-              </span>
-            )}
-          </h1>
-
-          {/* Subtitle Description */}
-          <p className="mt-4 md:mt-5 text-base sm:text-lg md:text-xl text-[#F3F1EA]/95 font-light leading-relaxed max-w-2xl drop-shadow-md">
-            {currentSlide?.subtitle ||
-              tagline ||
-              'Supplying commercial trucks, passenger buses, agricultural machinery, and heavy equipment to over 100+ countries.'}
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="mt-8 md:mt-10 flex flex-wrap gap-4 items-center">
-            <Link
-              href="/contact"
-              className="mono-label text-xs uppercase bg-[#B69255] hover:bg-[#9E7A3F] text-white font-bold px-7 py-3.5 rounded-sm transition-all duration-200 shadow-xl tracking-wider flex items-center gap-2 group cursor-pointer border border-[#D5B57A]/40"
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`slide-content-${index}-${currentSlide.title}`}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.45, ease: 'easeInOut' }}
             >
-              <span>Request a Quote</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-            </Link>
+              {/* Main Headline with Gold Highlights */}
+              <h1 className="font-display text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-extrabold uppercase tracking-tight text-white leading-[1.1] drop-shadow-xl">
+                {currentSlide?.title?.split('&')[0]}{' '}
+                {currentSlide?.title?.includes('&') && (
+                  <span className="text-[#D5B57A] drop-shadow">
+                    &amp; {currentSlide?.title?.split('&').slice(1).join('&')}
+                  </span>
+                )}
+              </h1>
 
-            <a
-              href="#catalog"
-              className="mono-label text-xs uppercase bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 font-semibold px-7 py-3.5 rounded-sm transition-all duration-200 tracking-wider flex items-center gap-2 cursor-pointer"
-            >
-              <span>Explore Fleet Catalog</span>
-            </a>
-          </div>
+              {/* Subtitle Description */}
+              <p className="mt-3 md:mt-4 text-xs sm:text-sm md:text-base text-[#F3F1EA]/95 font-light leading-relaxed max-w-xl drop-shadow-md">
+                {currentSlide?.subtitle ||
+                  tagline ||
+                  'Supplying commercial trucks, passenger buses, agricultural machinery, and heavy equipment to over 100+ countries.'}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Hero CTA section removed */}
         </div>
       </div>
 
@@ -229,6 +218,22 @@ export default function HeroSlider({ images, tagline }) {
         <ChevronRight className="w-6 h-6" />
       </button>
 
+      {/* Slide Indicators / Dots */}
+      {slides.length > 1 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-black/30 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+          {slides.map((s, i) => (
+            <button
+              key={`dot-${s.id}-${i}`}
+              onClick={() => setIndex(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                i === index ? 'w-7 bg-[#D5B57A]' : 'w-2 bg-white/40 hover:bg-white/70'
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
+

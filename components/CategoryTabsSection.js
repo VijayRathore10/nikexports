@@ -17,12 +17,17 @@ export default function CategoryTabsSection({ categories = [], products = [] }) 
 
   const filteredProducts = products.filter((p) => {
     const pSlug = (typeof p.category === 'string' ? p.category : p.category?.slug)?.toLowerCase();
+    const pTitle = (typeof p.category === 'object' ? p.category?.title : '')?.toLowerCase();
     const active = activeSlug?.toLowerCase();
-    return (
-      pSlug === active ||
-      (active === 'equipment' && (pSlug === 'heavy-equipment' || pSlug === 'equipments')) ||
-      (active === 'heavy-equipment' && pSlug === 'equipment')
-    );
+    
+    if (!active) return true;
+    if (pSlug === active || pTitle === active) return true;
+    
+    // Normalize machinery / equipment synonyms
+    const isMachinery = (s) => ['equipment', 'equipments', 'heavy-equipment', 'machineries', 'machinery'].includes(s);
+    if (isMachinery(active) && (isMachinery(pSlug) || isMachinery(pTitle))) return true;
+
+    return false;
   });
 
 
@@ -40,7 +45,7 @@ export default function CategoryTabsSection({ categories = [], products = [] }) 
 
         {/* Horizontal Category Selector Tabs */}
         <div className="mb-10">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3 p-2 bg-white/90 rounded-xl border border-line shadow-sm">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 md:gap-3.5 p-2.5 bg-white rounded-xl border border-gray-300/80 shadow-md">
             {categories.map((cat, idx) => {
               const isActive = cat.slug === activeSlug;
               const count = products.filter((p) => p.category?.slug === cat.slug).length;
@@ -50,13 +55,13 @@ export default function CategoryTabsSection({ categories = [], products = [] }) 
                 <button
                   key={cat._id || cat.slug}
                   onClick={() => setSelectedSlug(cat.slug)}
-                  className={`flex items-center justify-center px-4 py-3.5 rounded-lg transition-all duration-200 text-center cursor-pointer ${
+                  className={`flex items-center justify-center px-4 py-4 rounded-lg transition-all duration-200 text-center cursor-pointer ${
                     isActive
-                      ? 'bg-steel text-white shadow-md border-b-2 border-amber ring-1 ring-steel'
-                      : 'bg-[#F3F6FA] hover:bg-white text-steel/80 hover:text-steel border border-line/60 hover:border-line'
+                      ? 'bg-[#102035] text-white shadow-lg border-b-4 border-[#B69255] ring-2 ring-[#102035]/30'
+                      : 'bg-[#F8FAFC] hover:bg-white text-[#0F172A] hover:text-black border border-gray-300/70 hover:border-gray-400 font-semibold shadow-xs'
                   }`}
                 >
-                  <span className="font-display text-base md:text-lg font-bold tracking-wide uppercase">
+                  <span className="font-display text-lg md:text-xl font-extrabold tracking-wider uppercase text-inherit">
                     {cat.title}
                   </span>
                 </button>
@@ -72,7 +77,7 @@ export default function CategoryTabsSection({ categories = [], products = [] }) 
           </h3>
         </div>
 
-        {/* Products Grid - 4 Column Layout */}
+        {/* Products Grid - 2/2/2 layout (Total 6 elements: 2 columns per row or 3x2) */}
         {filteredProducts.length === 0 ? (
           <div className="bg-white border border-line rounded-xl p-12 text-center my-6 shadow-sm">
             <p className="text-graphite font-display text-lg mb-2">
@@ -89,8 +94,8 @@ export default function CategoryTabsSection({ categories = [], products = [] }) 
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((p) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+            {filteredProducts.slice(0, 6).map((p) => (
               <ProductCard key={p._id} product={p} />
             ))}
           </div>
