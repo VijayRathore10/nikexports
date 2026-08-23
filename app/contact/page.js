@@ -40,10 +40,10 @@ export default async function ContactPage() {
                     Export Sales Desk
                   </span>
                   <a
-                    href={`mailto:${settings?.contactEmail || 'exports@ssgmotors.com'}`}
+                    href={`mailto:${settings?.contactEmail || 'info@ssgmotors.com'}`}
                     className="font-medium text-[#102035] hover:text-[#B69255] transition-colors"
                   >
-                    {settings?.contactEmail || 'exports@ssgmotors.com'}
+                    {settings?.contactEmail || 'info@ssgmotors.com'}
                   </a>
                 </div>
               </div>
@@ -57,10 +57,10 @@ export default async function ContactPage() {
                     Phone / WhatsApp Direct
                   </span>
                   <a
-                    href={`tel:${settings?.contactPhone || '+971 4 000 0000'}`}
+                    href={`tel:${settings?.contactPhone || '+971506988527'}`}
                     className="font-medium text-[#102035] hover:text-[#B69255] transition-colors"
                   >
-                    {settings?.contactPhone || '+971 4 000 0000 / +91 98200 00000'}
+                    {settings?.contactPhone || '+971 50 698 8527'}
                   </a>
                 </div>
               </div>
@@ -71,10 +71,11 @@ export default async function ContactPage() {
                 </div>
                 <div>
                   <span className="text-graphite uppercase text-[11px] mono-label font-bold block">
-                    Export Yards &amp; Port Depots
+                    Headquarters &amp; Export Office
                   </span>
-                  <p className="font-medium text-[#102035]">
-                    {settings?.address || 'Port Terminal Depot & Free Trade Zone Dispatch'}
+                  <p className="font-medium text-[#102035] text-sm leading-relaxed">
+                    {settings?.address ||
+                      'SevenSeas Global Trading FZ LLC, Compass Building, Al Shohada Road, AL Hamra Industrial Zone-FZ, Ras Al Khaimah, United Arab Emirates'}
                   </p>
                 </div>
               </div>
