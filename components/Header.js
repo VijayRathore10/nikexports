@@ -78,64 +78,30 @@ export default function Header() {
       style={getHeaderStyle()}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isWhiteNav
-          ? 'bg-white/98 backdrop-blur-md text-steel shadow-md border-b border-gray-200/90 py-2.5 md:py-3.5'
+          ? 'bg-white/80 backdrop-blur-md text-steel shadow-sm border-b border-gray-200/50 py-1'
           : isTransparent
-          ? 'bg-transparent text-white border-b border-transparent py-4 md:py-5'
-          : 'py-3 md:py-4 text-white'
+          ? 'bg-transparent text-white border-b border-transparent py-1.5'
+          : 'py-1 text-white'
       }`}
     >
-      <div className="mx-auto max-w-7xl px-5 md:px-8 flex items-center justify-between">
+      <div className="mx-auto max-w-7xl px-4 md:px-8 flex items-center justify-between">
         {/* Brand Logo: White when transparent or <50% scroll; Colored when >=50% scroll */}
         <Link
           href="/"
-          className="inline-block transition-transform duration-200 hover:scale-102"
+          className="inline-flex items-center transition-transform duration-200 hover:scale-102"
           aria-label="SSG MOTORS Home"
         >
           <Logo
             isWhite={!isWhiteNav}
-            className="h-16 md:h-24 w-auto"
+            className="h-14 md:h-16 w-auto"
           />
         </Link>
-
-        {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Link
-            href="/#catalog"
-            className={`text-sm font-semibold tracking-wide uppercase transition-colors ${
-              isWhiteNav
-                ? 'text-[#102035] hover:text-[#B69255]'
-                : 'text-white/90 hover:text-white'
-            }`}
-          >
-            Inventory
-          </Link>
-          <Link
-            href="/about"
-            className={`text-sm font-semibold tracking-wide uppercase transition-colors ${
-              isWhiteNav
-                ? 'text-[#102035] hover:text-[#B69255]'
-                : 'text-white/90 hover:text-white'
-            }`}
-          >
-            About Us
-          </Link>
-          <Link
-            href="/contact"
-            className={`text-sm font-semibold tracking-wide uppercase transition-colors ${
-              isWhiteNav
-                ? 'text-[#102035] hover:text-[#B69255]'
-                : 'text-white/90 hover:text-white'
-            }`}
-          >
-            Contact
-          </Link>
-        </nav>
 
         {/* Action Button: "Request a Quote" */}
         <div className="flex items-center gap-3">
           <Link
             href="/contact"
-            className={`mono-label text-xs uppercase font-bold px-5 md:px-6 py-2.5 md:py-3 rounded-sm transition-all duration-200 tracking-wider flex items-center gap-2 group cursor-pointer ${
+            className={`mono-label text-xs uppercase font-bold px-4 md:px-5 py-2 md:py-2.5 rounded-sm transition-all duration-200 tracking-wider flex items-center gap-2 group cursor-pointer ${
               isWhiteNav
                 ? 'bg-[#B69255] hover:bg-[#9E7A3F] text-white shadow-md hover:shadow-lg'
                 : 'bg-white/15 backdrop-blur-md text-white border border-white/40 hover:bg-[#B69255] hover:border-[#B69255] hover:text-white shadow-lg'
