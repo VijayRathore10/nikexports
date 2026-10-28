@@ -20,7 +20,10 @@ export default async function ProductPage({ params }) {
 
   if (!product || !product.name) return notFound();
 
-  const specs = product.specifications || [];
+  // Filter out any blank/empty rows: empty rows will not be captured on the webpage (max 20 rows)
+  const specs = (product.specifications || [])
+    .filter((s) => s && ((s.label && s.label.trim().length > 0) || (s.value && s.value.trim().length > 0)))
+    .slice(0, 20);
   const highlights = (product.highlights || []).filter(Boolean);
 
   return (
