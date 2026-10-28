@@ -55,9 +55,14 @@ export default async function ProductPage({ params }) {
           </h1>
 
           {highlights.length > 0 && (
-            <div className="rivet-plate p-4 mb-6 grid grid-cols-2 gap-x-4 gap-y-2 mono-label text-[11px] uppercase text-graphite">
+            <div className="rivet-plate p-4 mb-6 flex flex-wrap gap-2 mono-label text-[11px] uppercase text-steel">
               {highlights.map((h, i) => (
-                <span key={i}>{h}</span>
+                <span
+                  key={i}
+                  className="inline-flex items-center gap-1.5 bg-white/80 border border-line rounded px-2.5 py-1 text-steel font-medium shadow-2xs whitespace-normal break-words"
+                >
+                  {h}
+                </span>
               ))}
             </div>
           )}

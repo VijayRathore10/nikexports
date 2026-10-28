@@ -2,8 +2,45 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { resolveImage } from '@/lib/image';
 
+// Helper to extract available specifications/highlights with real data
+function getProductSpecs(product) {
+  const specs = [];
+
+  const addSpec = (item) => {
+    if (!item) return;
+    if (typeof item === 'string') {
+      const clean = item.trim();
+      if (clean && clean !== ':' && !clean.endsWith(':')) {
+        specs.push(clean);
+      }
+    } else if (typeof item === 'object') {
+      const label = item.label || item.title || item.key || '';
+      const val = item.value || item.val || '';
+      if (label && val) {
+        specs.push(`${label}: ${val}`);
+      } else if (val) {
+        specs.push(String(val));
+      } else if (label) {
+        specs.push(String(label));
+      }
+    }
+  };
+
+  // Check product.highlights first
+  if (Array.isArray(product?.highlights)) {
+    product.highlights.forEach(addSpec);
+  }
+
+  // If highlights didn't provide specs or are empty, check product.specifications (up to 6)
+  if (specs.length === 0 && Array.isArray(product?.specifications)) {
+    product.specifications.slice(0, 6).forEach(addSpec);
+  }
+
+  return specs;
+}
+
 export default function ProductCard({ product }) {
-  const highlights = (product.highlights || []).filter(Boolean);
+  const specs = getProductSpecs(product);
 
   return (
     <Link
@@ -31,14 +68,28 @@ export default function ProductCard({ product }) {
             {product.name}
           </p>
 
-          {highlights.length > 0 && (
-            <ul className="mono-label text-[10px] text-graphite grid grid-cols-3 gap-x-2 gap-y-1.5 uppercase mb-4">
-              {highlights.map((h, i) => (
-                <li key={i} className="truncate border-l-2 border-amber pl-1.5 text-steel/80 leading-tight">
-                  {h}
-                </li>
-              ))}
-            </ul>
+          {/* Floating, dynamic-width key specifications (only shows specs with data, no fixed sizes, no cropped text) */}
+          {specs.length > 0 && (
+            <div className="flex flex-wrap items-center gap-1.5 mb-4">
+              {specs.map((spec, i) => {
+                const colonIndex = spec.indexOf(':');
+                const hasColon = colonIndex > 0;
+                const label = hasColon ? spec.slice(0, colonIndex).trim() : null;
+                const value = hasColon ? spec.slice(colonIndex + 1).trim() : spec;
+
+                return (
+                  <span
+                    key={i}
+                    className="inline-flex items-center gap-1 text-[11px] font-mono leading-tight bg-slate-50 hover:bg-slate-100 text-steel border border-line/80 hover:border-gray-400 rounded-md px-2 py-1 transition-colors whitespace-normal break-words"
+                  >
+                    {label && (
+                      <span className="text-graphite/80 font-medium">{label}:</span>
+                    )}
+                    <span className="font-bold text-steel">{value}</span>
+                  </span>
+                );
+              })}
+            </div>
           )}
         </div>
 

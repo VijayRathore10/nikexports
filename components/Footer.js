@@ -45,7 +45,7 @@ export default function Footer({ settings }) {
     },
     {
       name: 'WhatsApp',
-      url: social.whatsapp || 'https://wa.me/919216915159',
+      url: social.whatsapp || 'https://wa.me/971506988527',
       icon: WhatsAppIcon,
       bgColor: 'hover:bg-[#25D366] hover:text-white',
       badge: 'Chat on WhatsApp',
@@ -60,7 +60,7 @@ export default function Footer({ settings }) {
             <Logo isWhite={true} className="h-[60px] w-auto" />
           </div>
           <p className="text-sm text-paper/70 leading-relaxed max-w-sm">
-            Headquartered in  India, NIK Exports is your reliable gateway to the global automotive market. As premier exporters and traders, we supply worldwide clients with top-tier automotive products across all categories. Partner with us for consistent, hassle-free deliveries you can always depend on.
+            Headquartered in the UAE, SSD Motors is your reliable gateway to the global automotive market. As premier exporters and traders, we supply worldwide clients with top-tier automotive products across all categories. Partner with us for consistent, hassle-free deliveries you can always depend on.
           </p>
         </div>
 
@@ -69,25 +69,25 @@ export default function Footer({ settings }) {
           <ul className="text-sm text-paper/80 space-y-2.5">
             <li>
               <a
-                href="mailto:sales@nikexports.com"
+                href="mailto:info@ssgmotors.com"
                 className="hover:text-amber transition-colors flex items-center gap-2"
               >
-                sales@nikexports.com
+                info@ssgmotors.com
               </a>
             </li>
             <li>
               <a
-                href="tel:+919216915159"
+                href="tel:+971506988527"
                 className="hover:text-amber transition-colors"
               >
-                +919216915159
+                +971 50 698 8527
               </a>
             </li>
             <li className="pt-1 text-paper/70 leading-relaxed">
-              <p className="font-medium text-paper">NIK Exports India</p>
-              <p>Shop No.9 13/33A,</p>
-              <p>Tilak Nagar, New Delhi, West Delhi,</p>
-              <p>Delhi, India</p>
+              <p className="font-medium text-paper">SevenSeas Global Trading FZ LLC</p>
+              <p>Compass Building,</p>
+              <p>Al Shohada Road, AL Hamra Industrial Zone-FZ,</p>
+              <p>Ras Al Khaimah, United Arab Emirates</p>
             </li>
           </ul>
         </div>
@@ -117,7 +117,7 @@ export default function Footer({ settings }) {
       </div>
 
       <div className="border-t border-paper/10 py-5 text-center text-xs text-paper/50 mono-label">
-        © {new Date().getFullYear()} NIK Exports India
+        © {new Date().getFullYear()} SevenSeas Global trading FZ LLC
       </div>
     </footer>
   );
