@@ -1,18 +1,4 @@
-import { createClient } from '@sanity/client';
-
-// This route needs environment variables set in your hosting (Vercel)
-// project settings — see .env.example in the project root for details:
-//   SANITY_API_WRITE_TOKEN  — a token with write access, from sanity.io/manage
-//   RESEND_API_KEY          — from resend.com, for sending the email notification
-//   NOTIFY_EMAIL            — the email address that should receive inquiries
-
-const writeClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'a3wpvljs',
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2024-01-01',
-  token: process.env.SANITY_API_WRITE_TOKEN,
-  useCdn: false,
-});
+import { addDbInquiry } from '@/lib/db';
 
 export async function POST(request) {
   const body = await request.json();
@@ -22,25 +8,20 @@ export async function POST(request) {
     return Response.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
-  // 1. Save the inquiry into Sanity so it shows up in the Studio.
+  // 1. Save directly to local in-app database for admin viewing
   try {
-    if (process.env.SANITY_API_WRITE_TOKEN) {
-      await writeClient.create({
-        _type: 'inquiry',
-        name,
-        email,
-        phone: phone || '',
-        message: `${product ? `[${product}] ` : ''}${message}`,
-        submittedAt: new Date().toISOString(),
-      });
-    }
+    await addDbInquiry({
+      name,
+      email,
+      phone: phone || '',
+      message,
+      product: product || '',
+    });
   } catch (err) {
-    console.error('Failed to save inquiry to Sanity:', err);
-    // Don't fail the whole request just because the CMS write failed —
-    // the email notification below is the primary path.
+    console.error('Failed to save inquiry to local DB:', err);
   }
 
-  // 2. Send an instant email notification.
+  // 2. Send instant email notification if RESEND is configured
   try {
     if (process.env.RESEND_API_KEY && process.env.NOTIFY_EMAIL) {
       await fetch('https://api.resend.com/emails', {

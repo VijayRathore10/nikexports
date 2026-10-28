@@ -119,8 +119,8 @@ export default function Footer({ settings }) {
       <div className="border-t border-paper/10 py-5 text-center text-xs text-paper/50 mono-label flex flex-wrap items-center justify-center gap-3">
         <span>© {new Date().getFullYear()} SevenSeas Global trading FZ LLC</span>
         <span>•</span>
-        <Link href="/studio" className="hover:text-amber text-paper/70 transition-colors">
-          Admin / Sanity Studio
+        <Link href="/admin" className="hover:text-amber text-paper/70 transition-colors">
+          Admin Dashboard
         </Link>
       </div>
     </footer>
