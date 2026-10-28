@@ -123,6 +123,7 @@ export default function HeroSlider({ images, tagline }) {
   }, [images, tagline]);
 
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const next = useCallback(() => {
     setIndex((i) => (i + 1) % slides.length);
@@ -133,16 +134,18 @@ export default function HeroSlider({ images, tagline }) {
   }, [slides.length]);
 
   useEffect(() => {
-    if (slides.length < 2) return;
+    if (slides.length < 2 || isPaused) return;
     const interval = setInterval(next, 6500);
     return () => clearInterval(interval);
-  }, [next, slides.length]);
+  }, [next, slides.length, isPaused]);
 
   const currentSlide = slides[index] || slides[0];
 
   return (
     <section
       id="hero-section"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
       className="relative w-full aspect-[16/10] min-h-[520px] max-h-[88vh] overflow-hidden bg-[#0e1724] select-none"
     >
       {/* 16:10 Aspect Ratio Background Photography Slides */}

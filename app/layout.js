@@ -28,9 +28,9 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata = {
-  title: 'SSG MOTORS | Commercial Vehicles & Equipment Export',
+  title: 'Nik Exports | Commercial Vehicles & Equipment Export',
   description:
-    'SSG MOTORS — Commercial trucks, buses, agricultural machinery and heavy construction equipment exported worldwide.',
+    'Nik Exports — Commercial vehicles & equipment export portal for trucks, buses, machinery, and special application vehicles.',
 };
 
 
